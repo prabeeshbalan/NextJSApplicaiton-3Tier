@@ -1,0 +1,41 @@
+# Backend .dockerignore - Place in backend/ directory
+
+### General exclusions ###
+**/.git
+**/.gitignore
+**/.DS_Store
+**/Thumbs.db
+
+### Node.js specific ###
+**/node_modules
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.env
+**/.env*
+**/.env.local
+
+### Development files ###
+**/test
+**/tests
+**/coverage
+**/__mocks__
+**/jest.config.js
+**/.vscode
+**/.idea
+
+### Docker/Metadata ###
+**/Dockerfile
+**/docker-compose*
+**/.dockerignore
+
+### Database/Secrets ###
+**/secrets
+**/*.pem
+**/*.key
+
+### Keep these ###
+!package.json
+!package-lock.json
+!server.js
+!**/*.js  # Keep all JS files (adjust if using TypeScript)

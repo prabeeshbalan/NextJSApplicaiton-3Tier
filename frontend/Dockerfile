@@ -1,23 +1,33 @@
-# Use the official Node.js image as the base image
 FROM node:22.11.0
 
-# Set the working directory in the container
+# Set a work directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package files first for better caching
+COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (clean install for production)
+RUN npm ci --only=production
 
-# Copy the rest of the application code
-COPY . .
+# Copy application files
+COPY .next .next
+COPY app app
+COPY public public
 
-# Build the Next.js application
-RUN npm run build
+# Fix permissions (important for node_modules/.bin executables)
+RUN chown -R node:node /app && \
+    chmod -R 755 /app && \
+    chmod +x node_modules/.bin/*
 
-# Expose the port the app runs on
+# Switch to non-root user for security
+USER node
+
+RUN npx next build
+
+# EXPOSE the port of the application
 EXPOSE 3000
 
-# Start the application
+# The command to start the app
 CMD ["npm", "start"]
+
+#CMD ["sh", "-c", "if [ -f .next/BUILD_ID ]; then next start; else npm run build && next start; fi"]
