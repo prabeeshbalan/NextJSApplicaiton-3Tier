@@ -5,7 +5,7 @@ FROM node:22.11.0
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install
@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port the backend runs on
-EXPOSE 5000
+EXPOSE 3001
 
 # Start the backend server
 CMD ["node", "server.js"]
